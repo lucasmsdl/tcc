@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.com.puc.eletro.domain.enums.EstadoPagamento;
 
 @Entity
@@ -22,6 +24,7 @@ public abstract class Pagamento implements Serializable{
 	private Integer codigo;
 	private Integer estado;
 	
+	@JsonIgnore
 	@OneToOne
 	@JoinColumn(name = "codigo_pedido")
 	@MapsId
@@ -85,6 +88,7 @@ public abstract class Pagamento implements Serializable{
 				return false;
 		} else if (!codigo.equals(other.codigo))
 			return false;
+		
 		return true;
 	}
 	

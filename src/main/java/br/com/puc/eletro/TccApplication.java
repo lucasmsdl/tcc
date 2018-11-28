@@ -14,6 +14,7 @@ import br.com.puc.eletro.domain.Cidade;
 import br.com.puc.eletro.domain.Cliente;
 import br.com.puc.eletro.domain.Endereco;
 import br.com.puc.eletro.domain.Estado;
+import br.com.puc.eletro.domain.ItemPedido;
 import br.com.puc.eletro.domain.Pagamento;
 import br.com.puc.eletro.domain.PagamentoComBoleto;
 import br.com.puc.eletro.domain.PagamentoComCartao;
@@ -26,6 +27,7 @@ import br.com.puc.eletro.repositories.CidadeRepository;
 import br.com.puc.eletro.repositories.ClienteRepository;
 import br.com.puc.eletro.repositories.EnderecoRepository;
 import br.com.puc.eletro.repositories.EstadoRepository;
+import br.com.puc.eletro.repositories.ItemPedidoRepository;
 import br.com.puc.eletro.repositories.PagamentoRepository;
 import br.com.puc.eletro.repositories.PedidoRepository;
 import br.com.puc.eletro.repositories.ProdutoRepository;
@@ -49,6 +51,8 @@ public class TccApplication implements CommandLineRunner{
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepitory;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(TccApplication.class, args);
@@ -97,7 +101,7 @@ public class TccApplication implements CommandLineRunner{
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:MM");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
 		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, e1);
 		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:32"), cli1, e2);
@@ -113,7 +117,18 @@ public class TccApplication implements CommandLineRunner{
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
 		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
 		
+		ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepitory.saveAll(Arrays.asList(ip1, ip2, ip3));
 		
 	}
 	
