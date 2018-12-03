@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.com.puc.eletro.domain.Categoria;
-import br.com.puc.eletro.domain.Cliente;
 import br.com.puc.eletro.dto.CategoriaDTO;
 import br.com.puc.eletro.repositories.CategoriaRepository;
 import br.com.puc.eletro.services.excptions.DataIntegrityException;
