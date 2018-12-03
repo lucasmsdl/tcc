@@ -2,30 +2,24 @@ package br.com.puc.eletro.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.NotEmpty;
+import br.com.puc.eletro.domain.Produto;
 
-import org.hibernate.validator.constraints.Length;
-
-import br.com.puc.eletro.domain.Categoria;
-
-public class CategoriaDTO implements Serializable{
+public class ProdutoDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	private Integer codigo;
-	
-	@NotEmpty(message="Preenchimento obrigatório")
-	@Length(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
 	private String nome;
+	private Double preco;
 	
-	public CategoriaDTO(){
+	public ProdutoDTO() {
 		
 	}
 	
-	public CategoriaDTO(Categoria obj) {
-		
+	public ProdutoDTO(Produto obj) {
 		codigo = obj.getCodigo();
 		nome = obj.getNome();
+		preco = obj.getPreco();
 	}
 
 	public Integer getCodigo() {
@@ -43,7 +37,14 @@ public class CategoriaDTO implements Serializable{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
+	public Double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Double preco) {
+		this.preco = preco;
+	}
 	
 	
 }
