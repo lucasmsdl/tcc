@@ -11,14 +11,18 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.com.puc.eletro.domain.Cidade;
 import br.com.puc.eletro.domain.Cliente;
 import br.com.puc.eletro.domain.Endereco;
+import br.com.puc.eletro.domain.enums.Perfil;
 import br.com.puc.eletro.domain.enums.TipoCliente;
 import br.com.puc.eletro.dto.ClienteDTO;
 import br.com.puc.eletro.dto.ClienteNewDTO;
 import br.com.puc.eletro.repositories.ClienteRepository;
 import br.com.puc.eletro.repositories.EnderecoRepository;
+import br.com.puc.eletro.security.UserSS;
+import br.com.puc.eletro.services.excptions.AuthorizationException;
 import br.com.puc.eletro.services.excptions.DataIntegrityException;
 import br.com.puc.eletro.services.excptions.ObjectNotFoundException;
 
@@ -36,6 +40,11 @@ public class ClienteService {
 	
 	public Cliente find(Integer codigo) {
 		
+		UserSS user = UserService.authenticated();
+		if (user == null || !user.hasRole(Perfil.ADMIN) && !codigo.equals(user.getCodigo())) {
+			throw new AuthorizationException("Acesso negado");
+			
+		}
 		Optional<Cliente> obj = repo.findById(codigo);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Código: " + codigo + ", Tipo: " + Cliente.class.getName()));
