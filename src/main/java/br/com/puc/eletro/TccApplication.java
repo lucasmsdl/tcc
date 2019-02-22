@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class TccApplication implements CommandLineRunner{
-
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(TccApplication.class, args);
 	}
@@ -15,7 +14,6 @@ public class TccApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 	
-		
 	}
 	
 }
